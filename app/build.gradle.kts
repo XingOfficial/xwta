@@ -9,7 +9,7 @@ android {
     defaultConfig {
         applicationId = "cn.xing.webtoapp"
         minSdk = 24
-        // targetSdk必须<29：Android 10+禁止从数据目录exec proot/aapt2（Termux同款约束）
+
         targetSdk = 28
         versionCode = 1
         versionName = "1.18"

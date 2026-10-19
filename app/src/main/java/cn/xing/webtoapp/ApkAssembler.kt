@@ -2,7 +2,6 @@ package cn.xing.webtoapp
 
 import java.io.File
 
-/** aapt2编译链接 + dex注入（直拼核心步骤） */
 object ApkAssembler {
 
     fun assemble(ctx: android.content.Context, project: AppProject,
@@ -45,7 +44,7 @@ object ApkAssembler {
 
     private fun runTool(exe: File, env: Map<String, String>, args: String) {
         val cmd = mutableListOf(exe.absolutePath)
-        // 无shell参与，路径不带引号；strip('')防quote残留
+
         cmd += args.trim().split("\\s+".toRegex()).map { it.trim('\'') }
         val pb = ProcessBuilder(cmd)
         pb.environment().putAll(env)

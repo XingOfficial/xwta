@@ -52,7 +52,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // 黑匣子：任何未捕获崩溃写入 crash.txt，方便离线排查
+
         val prev = Thread.getDefaultUncaughtExceptionHandler()
         Thread.setDefaultUncaughtExceptionHandler { t, e ->
             try {
@@ -116,7 +116,7 @@ class MainActivity : Activity() {
             gobtn.setOnClickListener {
                 var url = urlv.text.toString().trim()
                 var appname = namev.text.toString().trim()
-                // 名称框误填网址的兜底：自动纠正（读屏用户两框易粘错）
+
                 if (appname.matches("^https?://.*".toRegex()) || appname.contains("/")) {
                     val pasted = appname
                     if (url.isEmpty()) url = pasted
@@ -174,7 +174,7 @@ class MainActivity : Activity() {
                 .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(i)
         } catch (e: Exception) {
-            // FileProvider路径失败时退回MediaStore下载副本
+
             try {
                 val uri = Uri.parse(publicUriStr)
                 val i = Intent(Intent.ACTION_VIEW)

@@ -6,8 +6,6 @@ import java.io.FileOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 
-/** 直拼APK编排：TemplateWriter → ApkAssembler → SignHelper（对应Flutter版build_service.dart）
- *  全离线：JDK/R8/模板/签名器全部随APK资产分发 */
 class BuildService(context: Context,
                    private val onStatus: (BuildStatus, Double) -> Unit,
                    private val onLog: (String) -> Unit = {}) {
@@ -18,7 +16,6 @@ class BuildService(context: Context,
     private fun stage(s: BuildStatus, p: Double) = onStatus(s, p)
     private fun log(msg: String) = onLog(msg)
 
-    /** 资产尺寸指纹：资产更新过（尺寸变化）就删旧重解，防陈旧解压状态 */
     private val ASSET_SIZES = mapOf(
         "aapt2.zip" to 5126324L,
         "android.jar.zip" to 24149695L,
@@ -35,7 +32,6 @@ class BuildService(context: Context,
         marker.writeText(expected)
     }
 
-    /** 首次启动：展开全部内置工具链（启动页调用，带进度） */
     fun prepareTools() {
         val tools = File(ctx.filesDir, "tools")
         stage(BuildStatus.PREPARING, 0.02)
@@ -64,7 +60,7 @@ class BuildService(context: Context,
 
         stage(BuildStatus.PACKAGING, 0.9)
         val outDir = File(ctx.getExternalFilesDir(null), "apk").apply { mkdirs() }
-        // 唯一文件名：部分ROM拒绝覆盖已存在的APK写入
+
         val outApk = File(outDir, project.appName.replace(Regex("[\\\\/:*?\"<>|\\s]+"), "_")
                 + "_v${project.versionName}-$buildType-"
                 + (System.currentTimeMillis() % 1000000) + ".apk")
@@ -75,7 +71,6 @@ class BuildService(context: Context,
             throw Exception("签名失败: $r")
         }
 
-        // 复制到公开的下载目录（Android/data对文件管理器不可见）
         val publicPath = copyToPublicDownloads(outApk)
 
         stage(BuildStatus.DONE, 1.0)
@@ -85,7 +80,6 @@ class BuildService(context: Context,
 
     var lastPublicUri: String? = null
 
-    /** 复制到公开下载目录（API29+走MediaStore，无需权限） */
     private fun copyToPublicDownloads(src: File): String? {
         return try {
             if (android.os.Build.VERSION.SDK_INT >= 29) {
@@ -119,7 +113,7 @@ class BuildService(context: Context,
 
     private fun unzipProgress(name: String, dest: File, from: Double, to: Double) {
         dest.mkdirs()
-        // 先数条目
+
         var total = 0
         ctx.assets.open(name).use { ins ->
             ZipInputStream(ins).use { zin -> while (zin.nextEntry != null) total++ }

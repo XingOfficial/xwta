@@ -7,9 +7,8 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-/** 读取srcApk全部条目写入dstApk并追加extraDex */
 object ZipMerger {
-    /** dexZip内每个条目(如classes.dex/classes2.dex)按原名注入 */
+
     fun mergeDexZip(srcApk: File, dexZip: File, dstApk: File) {
         ZipInputStream(FileInputStream(dexZip)).use { dzin ->
             var de: ZipEntry? = dzin.nextEntry

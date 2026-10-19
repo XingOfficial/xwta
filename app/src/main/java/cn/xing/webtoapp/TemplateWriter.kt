@@ -2,7 +2,6 @@ package cn.xing.webtoapp
 
 import java.io.File
 
-/** 生成WebView壳工程的工程文件（对应Flutter版webview_template_materializer.dart） */
 object TemplateWriter {
 
     private val MANIFEST = """
@@ -74,7 +73,6 @@ public class MainActivity extends Activity {
         .replace("\"", "&quot;")
         .replace("'", "\\'")
 
-    /** 把工程文件写入outputDir（图标由调用方负责拷入res/mipmap） */
     fun write(project: AppProject, outputDir: File, debuggable: Boolean) {
         val resValues = File(outputDir, "res/values").apply { mkdirs() }
         File(outputDir, "res/mipmap").mkdirs()

@@ -146,7 +146,6 @@ public class MainActivityNative extends Activity {
         rv.setAdapter(ad);
     }
 
-    /** 解析渲染文档（GET/POST共用） */
     private void renderDoc(Document doc, String base) {
         doc.select("script,style,noscript,iframe,meta,link,head").remove();
         Element root = doc.selectFirst("article");
@@ -170,7 +169,6 @@ public class MainActivityNative extends Activity {
         });
     }
 
-    /** POST表单提交：Jsoup执行POST，响应页应用内渲染 */
     private void submitPost(final String action) {
         ToastShort("提交中…");
         new Thread(() -> {
@@ -286,7 +284,7 @@ public class MainActivityNative extends Activity {
                 collectFormControl(c, c.closest("form"), base); return;
             case "a": {
                 if (!c.select("img").isEmpty()) { addImageBlock(c, base); return; }
-                // 块级裸链接：保留href，渲染为可点击文本（应用内续读）
+
                 addTextElement(c, base, 16, false); return;
             }
             default: collect(c, base);
@@ -391,7 +389,6 @@ public class MainActivityNative extends Activity {
         }
     }
 
-    // ---------- 文件下载 ----------
     private static final String DL_EXT = ".apk .zip .rar .7z .pdf .doc .docx .xls .xlsx .ppt .pptx .mp3 .mp4 .txt .epub .mobi .ttf .jpg .png";
 
     private boolean isDownloadUrl(String u) {

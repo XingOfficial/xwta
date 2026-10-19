@@ -1,6 +1,5 @@
 package cn.xing.webtoapp
 
-/** 构建阶段（对应Flutter版models/build_status.dart） */
 enum class BuildStatus(val label: String, val startProgress: Double) {
     IDLE("等待开始", 0.0),
     PREPARING("解压构建环境", 0.05),

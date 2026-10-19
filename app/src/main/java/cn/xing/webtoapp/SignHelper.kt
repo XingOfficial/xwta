@@ -16,7 +16,6 @@ import java.util.zip.ZipEntry
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 
-/** APK v1(JAR)签名器：纯JDK API，无第三方依赖。sign()返回"OK"或错误信息。 */
 object SignHelper {
 
     fun sign(inPath: String, outPath: String, p12Path: String, pass: String): String {
@@ -27,7 +26,6 @@ object SignHelper {
             val key = ks.getKey(alias, pass.toCharArray()) as PrivateKey
             val cert = ks.getCertificate(alias) as X509Certificate
 
-            // 读取原APK全部条目（跳过旧META-INF）
             val entries = TreeMap<String, ByteArray>()
             ZipInputStream(FileInputStream(inPath)).use { zin ->
                 var e: ZipEntry? = zin.nextEntry
@@ -85,7 +83,6 @@ object SignHelper {
         }
     }
 
-    // ---- PKCS#7 SignedData (detached, 无signedAttrs) ----
     private fun pkcs7(encryptedDigest: ByteArray, cert: X509Certificate): ByteArray {
         val oidSha256 = byteArrayOf(0x60.toByte(), 0x86.toByte(), 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01)
         val oidRsa = byteArrayOf(0x2A.toByte(), 0x86.toByte(), 0x48, 0x86.toByte(), 0xF7.toByte(), 0x0D, 0x01, 0x01, 0x01)
@@ -113,7 +110,6 @@ object SignHelper {
         return seq(tlv(0x06, oidSignedData), tlv(0xA0, signedData))
     }
 
-    // ---- DER工具 ----
     private fun seq(vararg parts: ByteArray) = tlv(0x30, concat(*parts))
     private fun set(vararg parts: ByteArray) = tlv(0x31, concat(*parts))
     private fun tlv(tag: Int, content: ByteArray): ByteArray {
