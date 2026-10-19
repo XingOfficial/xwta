@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">XWTA</string>
+    <string name="home_title">把网页打包成APK</string>
+    <string name="home_subtitle">全程在手机本地完成构建，无需连接电脑。</string>
+    <string name="label_url">网页地址</string>
+    <string name="label_appname">应用名称</string>
+    <string name="label_vername">应用版本</string>
+    <string name="label_js">支持JavaScript</string>
+    <string name="btn_install">安装</string>
+    <string name="btn_share">分享APK</string>
+    <string name="label_buildtype">构建类型</string>
+    <string name="bt_debug">Debug（可调试）</string>
+    <string name="bt_release">Release</string>
+    <string name="btn_build">生成APK</string>
+    <string name="log_idle">输入网址后点击生成</string>
+    <string name="splash_title">首次启动准备中</string>
+    <string name="splash_text">首次需要解压构建环境，请保持存储空间充足</string>
+    <string name="phase_idle">等待开始</string>
+    <string name="phase_prepare">准备构建环境</string>
+    <string name="phase_generate">生成工程文件</string>
+    <string name="phase_compile">编译中</string>
+    <string name="phase_package">打包中</string>
+    <string name="phase_done">完成</string>
+</resources>

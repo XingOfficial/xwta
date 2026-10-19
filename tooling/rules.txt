@@ -1,0 +1,2 @@
+-keep class cn.xing.wtalite.MainActivity { *; }
+-dontwarn **
